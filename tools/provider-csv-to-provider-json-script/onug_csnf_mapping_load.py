@@ -15,7 +15,7 @@ def convert_onug_csv_to_json(input_file, output_file):
 			if hasHeader: next(csvreader) # Consume one line if a header exists
 			
 			# Iterate over the rows, and unpack each row into the variables
-			for provider_name, provider_type, provider_id, source_name, alert_id_name, csnf_path, provider_path, static_value, entity_type in csvreader:
+			for provider_name, provider_type, provider_id,  source_name, sourceId, source_regex_identifier, alert_id_name, csnf_path, provider_path, static_value, entity_type in csvreader:
 				# If the provider hasn't been processed yet, create a new dict for it
 				if provider_name not in all_providers:
 					all_providers[provider_name] = {
@@ -28,7 +28,7 @@ def convert_onug_csv_to_json(input_file, output_file):
 				provider = all_providers[provider_name]
 				# If the tournament hasn't been processed already for this team, create a new dict for it in the team's dict
 				if source_name not in provider["source"]:
-					provider["source"][source_name] = { "sourceName" : source_name, "sourceId" : "None", "alerts": {}}
+					provider["source"][source_name] = { "sourceName" : source_name, "sourceId" : sourceId, "sourceIdentifierRegex" : source_regex_identifier, "alerts": {}}
 
 				if alert_id_name not in provider["source"][source_name]["alerts"]:
 					provider["source"][source_name]["alerts"][alert_id_name] = {"alertMapping" : {}}
